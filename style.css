@@ -26,3 +26,16 @@ p {
 .card p:last-child {
 	margin-bottom: 0;
 }
+
+.rotate-360 {
+    animation: rotate-once 0.5s ease-in-out;
+}
+
+@keyframes rotate-once {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

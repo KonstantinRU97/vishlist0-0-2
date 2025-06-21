@@ -2,10 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>FishList - Персональный вишлист</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- iOS PWA Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="FishList">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+
     <style>
         :root {
             --primary: #3B82F6;
@@ -13,36 +24,104 @@
             --accent: #8B5CF6;
             --dark: #1F2937;
             --light: #F3F4F6;
+            --bg-main: #F3F4F6;
+            --bg-card: #fff;
+            --text-main: #1F2937;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
         }
-        
+        .theme-dark {
+            --primary: #8B5CF6;
+            --secondary: #3B82F6;
+            --accent: #10B981;
+            --dark: #2a1850;
+            --light: #31225c;
+            --bg-main: #2a1850;
+            --bg-card: #3a256b;
+            --text-main: #f3f4f6;
+            --text-secondary: #bdb7d6;
+            --border: #46397a;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light);
+            background-color: var(--bg-main);
+            color: var(--text-main);
         }
-        
+        .bg-white { background-color: var(--bg-card) !important; }
+        .bg-gray-50 { background-color: var(--bg-card) !important; }
+        .text-gray-800 { color: var(--text-main) !important; }
+        .text-gray-500 { color: var(--text-secondary) !important; }
+        .border-gray-200 { border-color: var(--border) !important; }
+        .shadow-sm { box-shadow: 0 1px 4px 0 rgba(44, 34, 92, 0.08); }
+        .bg-gradient-to-r, .bg-gradient-to-br {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        .bg-blue-500 { background-color: var(--primary) !important; }
+        .bg-blue-100 { background-color: #ede9fe !important; }
+        .text-blue-500, .text-blue-600 { color: var(--primary) !important; }
+        .bg-blue-50 { background-color: #f5f3ff !important; }
+        .bg-red-100 { background-color: #fbe9f3 !important; }
+        .text-red-500, .text-red-600 { color: #e11d48 !important; }
+        .bg-green-500 { background-color: var(--secondary) !important; }
+        .bg-gray-100 { background-color: var(--light) !important; }
+        .bg-indigo-500 { background-color: var(--accent) !important; }
+        .bg-purple-500 { background-color: var(--accent) !important; }
+        .text-indigo-700 { color: var(--accent) !important; }
+        .border-gray-300 { border-color: var(--border) !important; }
+        .hover\:bg-blue-50:hover { background-color: #ede9fe !important; }
+        .hover\:bg-blue-100:hover { background-color: #e0e7ff !important; }
+        .hover\:bg-red-100:hover { background-color: #fbcfe8 !important; }
+        .hover\:bg-gray-50:hover { background-color: var(--light) !important; }
+        .hover\:bg-blue-600:hover { background-color: #7c3aed !important; }
+        .hover\:bg-blue-500:hover { background-color: #6366f1 !important; }
+        .hover\:bg-blue-400:hover { background-color: #818cf8 !important; }
+        .hover\:bg-green-500:hover { background-color: #059669 !important; }
+        .hover\:bg-purple-500:hover { background-color: #a78bfa !important; }
+        .hover\:bg-indigo-100:hover { background-color: #c7d2fe !important; }
+        .hover\:bg-indigo-500:hover { background-color: #6366f1 !important; }
+        .hover\:bg-purple-600:hover { background-color: #7c3aed !important; }
+        .hover\:bg-purple-400:hover { background-color: #a78bfa !important; }
+        .hover\:bg-gray-100:hover { background-color: #ede9fe !important; }
+        .hover\:bg-gray-200:hover { background-color: #e5e7eb !important; }
+        .hover\:bg-indigo-600:hover { background-color: #6366f1 !important; }
+        .hover\:bg-green-600:hover { background-color: #059669 !important; }
+        .hover\:bg-green-400:hover { background-color: #34d399 !important; }
+        .hover\:bg-red-50:hover { background-color: #fdf2f8 !important; }
+        .hover\:bg-blue-200:hover { background-color: #c7d2fe !important; }
+        .hover\:bg-blue-300:hover { background-color: #a5b4fc !important; }
+        .hover\:bg-blue-700:hover { background-color: #3730a3 !important; }
+        .hover\:bg-blue-800:hover { background-color: #312e81 !important; }
+        .hover\:bg-blue-900:hover { background-color: #1e293b !important; }
+        .hover\:bg-indigo-700:hover { background-color: #3730a3 !important; }
+        .hover\:bg-indigo-800:hover { background-color: #312e81 !important; }
+        .hover\:bg-indigo-900:hover { background-color: #1e293b !important; }
+        .hover\:bg-purple-700:hover { background-color: #6d28d9 !important; }
+        .hover\:bg-purple-800:hover { background-color: #5b21b6 !important; }
+        .hover\:bg-purple-900:hover { background-color: #4c1d95 !important; }
+        .hover\:bg-green-700:hover { background-color: #047857 !important; }
+        .hover\:bg-green-800:hover { background-color: #065f46 !important; }
+        .hover\:bg-green-900:hover { background-color: #064e3b !important; }
+        .hover\:bg-red-700:hover { background-color: #be123c !important; }
+        .hover\:bg-red-800:hover { background-color: #9f1239 !important; }
+        .hover\:bg-red-900:hover { background-color: #881337 !important; }
         .slide-up {
             animation: slideUp 0.3s ease-out;
         }
-        
         @keyframes slideUp {
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        
         .pulse {
             animation: pulse 2s infinite;
         }
-        
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-        
         .tab-active {
             position: relative;
         }
-        
         .tab-active:after {
             content: '';
             position: absolute;
@@ -57,36 +136,13 @@
     </style>
 </head>
 <body class="text-gray-800 max-w-md mx-auto relative pb-20">
-    <!-- Auth Screen (Initial) -->
-    <div id="authScreen" class="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex flex-col items-center justify-center p-6">
-        <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm text-center slide-up">
-            <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-fish text-blue-500 text-4xl"></i>
-            </div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">FishList</h1>
-            <p class="text-gray-600 mb-6">Ваш персональный вишлист с AI-советчиком</p>
-            
-            <button onclick="showMainScreen()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium transition mb-4">
-                Войти с помощью VK
-            </button>
-            <button onclick="showMainScreen()" class="w-full bg-blue-400 hover:bg-blue-500 text-white py-3 rounded-lg font-medium transition mb-4">
-                Войти через Telegram
-            </button>
-            <button onclick="showMainScreen()" class="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 rounded-lg font-medium transition">
-                Почта/Телефон
-            </button>
-            
-            <p class="text-sm text-gray-500 mt-6">Нажимая войти, вы соглашаетесь с условиями использования</p>
-        </div>
-    </div>
-
     <!-- Main App (Hidden Initially) -->
-    <div id="appContainer" class="hidden">
+    <div id="appContainer">
         <!-- Header -->
         <header class="bg-white shadow-sm p-4 sticky top-0 z-10">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <i class="fas fa-fish text-blue-500 text-xl mr-2"></i>
+                    <i id="headerFishIcon" class="fas fa-fish text-blue-500 text-xl mr-2"></i>
                     <h1 class="text-xl font-bold">FishList</h1>
                 </div>
                 <div class="flex items-center space-x-3">
@@ -106,50 +162,44 @@
             <!-- Home Screen -->
             <div id="homeScreen" class="screen">
                 <div class="mb-6">
-                    <h2 class="text-lg font-semibold mb-3">Привет, Иван!</h2>
-                    <div class="bg-gradient-to-r from-blue-500 to-blue-400 rounded-xl p-4 text-white mb-4 slide-up">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm font-medium">Совет дня</span>
-                            <i class="fas fa-wand-magic-sparkles"></i>
-                        </div>
-                        <p class="text-sm mb-3">На основе вашего вишлиста, мы рекомендуем подарить вам мастер-класс по приготовлению суши — это сочетается с вашей любовью к экспериментам!</p>
-                        <button class="text-xs bg-white text-blue-500 px-3 py-1 rounded-full font-medium">Добавить в вишлист</button>
+                    <div id="mainGreeting" class="text-lg font-semibold mb-3"></div>
+                    <div id="adviceOfTheDay"></div>
+                </div>
+
+                <!-- Мои желания -->
+                <div class="mb-6">
+                    <div id="homeWishesHeader" class="flex justify-between items-center mb-3 cursor-pointer group">
+                        <h3 class="font-semibold flex items-center bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm group-hover:border-blue-300 transition-all">
+                            <span class="mr-2 group-hover:text-blue-500 transition-colors">Мои желания</span>
+                            <span id="homeWishesCount" class="text-sm bg-blue-100 text-blue-600 px-2 py-1 rounded-full">0</span>
+                        </h3>
+                        <span class="text-sm text-blue-500 font-medium flex items-center group-hover:underline">
+                            Все <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </span>
+                    </div>
+                    <div id="homeWishesGrid" class="grid grid-cols-2 gap-3">
+                        <!-- Static wish cards will be replaced by JS -->
                     </div>
                 </div>
 
-                <h3 class="font-semibold mb-3 flex items-center">
-                    <span class="mr-2">Мои желания</span>
-                    <span class="text-sm bg-blue-100 text-blue-600 px-2 py-1 rounded-full">5</span>
-                </h3>
-
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div class="bg-white rounded-xl p-3 shadow-sm slide-up">
-                        <div class="bg-gray-100 rounded-lg h-24 mb-2"></div>
-                        <p class="text-sm font-medium truncate">Игровая консоль</p>
-                        <p class="text-xs text-gray-500">8 000 ₽</p>
-                        <div class="flex justify-between items-center mt-2">
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
-                            </div>
-                            <span class="text-xs ml-2">45%</span>
-                        </div>
+                <!-- Я дарю -->
+                <div class="mb-6">
+                     <div id="homeGivingHeader" class="flex justify-between items-center mb-3 cursor-pointer group">
+                        <h3 class="font-semibold flex items-center bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm group-hover:border-blue-300 transition-all">
+                            <span class="mr-2 group-hover:text-blue-500 transition-colors">Я дарю</span>
+                            <span id="homeGivingCount" class="text-sm bg-green-100 text-green-600 px-2 py-1 rounded-full">0</span>
+                        </h3>
+                         <span class="text-sm text-blue-500 font-medium flex items-center group-hover:underline">
+                            Все <i class="fas fa-chevron-right text-xs ml-1"></i>
+                        </span>
                     </div>
-                    
-                    <div class="bg-white rounded-xl p-3 shadow-sm slide-up">
-                        <div class="bg-gray-100 rounded-lg h-24 mb-2"></div>
-                        <p class="text-sm font-medium truncate">Книга "Игра"</p>
-                        <p class="text-xs text-gray-500">900 ₽</p>
-                        <div class="flex justify-between items-center mt-2">
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                            </div>
-                            <span class="text-xs ml-2">100%</span>
-                        </div>
+                    <div id="homeGivingGrid" class="grid grid-cols-2 gap-3">
+                        <!-- Giving preview will be rendered here -->
                     </div>
                 </div>
 
-                <button onclick="showScreen('wishlistScreen')" class="text-blue-500 text-sm font-medium flex items-center justify-center w-full py-2 border border-dashed border-blue-200 rounded-lg hover:bg-blue-50 transition">
-                    <i class="fas fa-plus mr-2"></i> Добавить желание
+                <button onclick="showAddWishModal()" class="text-blue-500 text-sm font-medium flex items-center justify-center w-full py-2 border border-dashed border-blue-200 rounded-lg hover:bg-blue-50 transition">
+                    <i class="fas fa-plus mr-2"></i> Добавить желание в свой вишлист
                 </button>
             </div>
 
@@ -162,55 +212,15 @@
                     </button>
                 </div>
 
-                <div class="flex space-x-2 mb-4 overflow-x-auto pb-2">
-                    <button class="text-xs bg-blue-500 text-white px-3 py-1 rounded-full font-medium">Все</button>
-                    <button class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Мечтаю</button>
-                    <button class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Прикольно</button>
-                    <button class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Хочу сейчас</button>
+                <div class="flex space-x-2 mb-4 overflow-x-auto pb-2" id="wishlistFilter">
+                    <button data-category="Все" class="wish-filter-btn text-xs bg-blue-500 text-white px-3 py-1 rounded-full font-medium">Все</button>
+                    <button data-category="Вещь" class="wish-filter-btn text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Вещь</button>
+                    <button data-category="Впечатление" class="wish-filter-btn text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Впечатление</button>
+                    <button data-category="Время" class="wish-filter-btn text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1 rounded-full font-medium">Время</button>
                 </div>
 
-                <div class="space-y-3">
-                    <div class="bg-white rounded-xl p-3 shadow-sm relative slide-up">
-                        <div class="flex">
-                            <div class="w-16 h-16 bg-gray-100 rounded-lg mr-3 flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-medium truncate">Игровая консоль Xbox Series X</p>
-                                <p class="text-sm text-gray-500 mb-1">8 000 ₽</p>
-                                <div class="flex justify-between items-center">
-                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mr-2">
-                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 45%"></div>
-                                    </div>
-                                    <span class="text-xs text-gray-500">4 500 ₽</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute top-2 right-2 flex space-x-1">
-                            <button class="w-6 h-6 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
-                                <i class="fas fa-ellipsis-h text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-3 shadow-sm relative slide-up">
-                        <div class="flex">
-                            <div class="w-16 h-16 bg-gray-100 rounded-lg mr-3 flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-medium truncate">Книга "Игра" Нила Стросса</p>
-                                <p class="text-sm text-gray-500 mb-1">900 ₽</p>
-                                <div class="flex justify-between items-center">
-                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mr-2">
-                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 100%"></div>
-                                    </div>
-                                    <span class="text-xs text-green-500">Оплачено</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute top-2 right-2 flex space-x-1">
-                            <button class="w-6 h-6 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center">
-                                <i class="fas fa-ellipsis-h text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
+                <div id="wishlistList" class="space-y-3">
+                    <!-- Wish items will be rendered here by JS -->
                 </div>
             </div>
 
@@ -226,62 +236,84 @@
                 <div class="bg-white rounded-xl p-4 shadow-sm mb-4 slide-up">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="font-medium">Ближайшие дни рождения</h3>
-                        <button class="text-xs text-blue-500">Все</button>
+                        <button id="showAllBirthdaysBtn" class="text-xs text-blue-500 hover:underline">Все</button>
                     </div>
                     
-                    <div class="flex space-x-3 overflow-x-auto pb-2">
-                        <div class="flex-shrink-0 text-center">
-                            <div class="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center mx-auto mb-1">
-                                <i class="fas fa-birthday-cake text-pink-500"></i>
-                            </div>
-                            <p class="text-xs font-medium">Алексей</p>
-                            <p class="text-xs text-gray-500">22 мая</p>
-                        </div>
-                        
-                        <div class="flex-shrink-0 text-center">
-                            <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-1">
-                                <i class="fas fa-birthday-cake text-blue-500"></i>
-                            </div>
-                            <p class="text-xs font-medium">Мария</p>
-                            <p class="text-xs text-gray-500">25 мая</p>
-                        </div>
+                    <div id="birthdaysContainer" class="flex space-x-3 overflow-x-auto pb-2">
+                        <!-- Upcoming birthdays will be rendered here by JS -->
                     </div>
                 </div>
                 
                 <h3 class="font-medium mb-2">Мои друзья</h3>
                 
-                <div class="space-y-3">
-                    <div class="bg-white rounded-xl p-3 shadow-sm slide-up" onclick="showFriendWishlist()">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-gray-200 mr-3 flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-medium truncate">Алексей Иванов</p>
-                                <p class="text-xs text-gray-500 truncate">5 желаний • 1 сбор</p>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-400"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-3 shadow-sm slide-up">
-                        <div class="flex items-center">
-                            <div class="w-10 h-10 rounded-full bg-gray-200 mr-3 flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-medium truncate">Мария Петрова</p>
-                                <p class="text-xs text-gray-500 truncate">12 желаний • 3 сбора</p>
-                            </div>
-                            <i class="fas fa-chevron-right text-gray-400"></i>
-                        </div>
-                    </div>
+                <div id="friendsListContainer" class="space-y-3">
+                    <!-- Friends list will be rendered here by JS -->
+                </div>
+            </div>
+
+            <!-- All Birthdays Screen -->
+            <div id="birthdaysScreen" class="screen hidden">
+                <div class="flex items-center mb-4">
+                    <button onclick="showScreen('friendsScreen')" class="mr-2">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold">Дни рождения друзей</h2>
+                </div>
+                <div id="allBirthdaysListContainer" class="space-y-3">
+                    <!-- Full list of birthdays will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Love Language Test Screen -->
+            <div id="loveLanguageTestScreen" class="screen hidden">
+                 <div class="flex items-center mb-4">
+                    <button onclick="showScreen('aiAdvisorScreen')" class="mr-2">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold">Тест "Язык Любви"</h2>
+                </div>
+                <div id="llTestContainer" class="bg-white rounded-xl p-4 shadow-sm">
+                    <!-- Test content will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Test Result Screen -->
+            <div id="testResultScreen" class="screen hidden">
+                 <div class="flex items-center mb-4">
+                    <button onclick="showScreen('aiAdvisorScreen')" class="mr-2">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold">Ваш результат</h2>
+                </div>
+                <div id="testResultContainer">
+                    <!-- Test result and suggestions will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Giving Screen -->
+            <div id="givingScreen" class="screen hidden">
+                <div class="flex items-center mb-4">
+                     <button onclick="showScreen('homeScreen')" class="mr-2">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold">Мои подарки</h2>
+                </div>
+                 <div class="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-4">
+                    <button id="givingTabPlanned" class="flex-1 text-sm py-1.5 px-2 rounded-md bg-white shadow font-medium">Планирую</button>
+                    <button id="givingTabGiven" class="flex-1 text-sm py-1.5 px-2 rounded-md text-gray-500">Подарил</button>
+                </div>
+                <div id="givingListContainer" class="space-y-3">
+                    <!-- List of gifts I'm giving will be rendered here -->
                 </div>
             </div>
 
             <!-- Friend Wishlist Screen -->
             <div id="friendWishlistScreen" class="screen hidden">
                 <div class="flex items-center mb-4">
-                    <button onclick="showScreen('friendsScreen')" class="mr-2">
+                    <button id="friendWishlistBackBtn" onclick="showScreen('friendsScreen')" class="mr-2">
                         <i class="fas fa-arrow-left text-lg"></i>
                     </button>
-                    <h2 class="text-lg font-semibold">Алексей Иванов</h2>
+                    <h2 id="friendWishlistTitle" class="text-lg font-semibold">Имя Друга</h2>
                 </div>
                 
                 <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-4 text-white mb-4">
@@ -289,85 +321,78 @@
                     <button class="w-full bg-white text-purple-600 py-2 rounded-lg font-medium text-sm">Сделать сюрприз</button>
                 </div>
                 
-                <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
-                    <h3 class="font-medium mb-2">Активный сбор</h3>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gray-100 rounded-lg mr-3"></div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium truncate">Фитнес-браслет</p>
-                            <div class="flex justify-between items-center">
-                                <div class="w-full bg-gray-200 rounded-full h-2 mr-2">
-                                    <div class="bg-green-500 h-2 rounded-full" style="width: 67%"></div>
-                                </div>
-                                <span class="text-xs text-gray-500">6 700/10 000 ₽</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="w-full mt-3 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium text-sm">
-                        Скинуться
-                    </button>
-                </div>
-                
-                <h3 class="font-medium mb-2">Все желания</h3>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white rounded-xl p-3 shadow-sm">
-                        <div class="bg-gray-100 rounded-lg h-20 mb-2"></div>
-                        <p class="text-sm font-medium truncate">Фитнес-браслет</p>
-                        <p class="text-xs text-gray-500">10 000 ₽</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-3 shadow-sm">
-                        <div class="bg-gray-100 rounded-lg h-20 mb-2"></div>
-                        <p class="text-sm font-medium truncate">Сертификат SPA</p>
-                        <p class="text-xs text-gray-500">5 000 ₽</p>
-                    </div>
+                <div id="friendWishesGrid" class="space-y-3">
+                    <!-- Wish items will be rendered here by JS -->
                 </div>
             </div>
 
             <!-- AI Advisor Screen -->
             <div id="aiAdvisorScreen" class="screen hidden">
-                <h2 class="text-lg font-semibold mb-4">AI Советчик</h2>
-                
-                <div class="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4 text-white mb-4">
+                <h2 class="text-lg font-semibold mb-4">AI-Советчик</h2>
+
+                <div class="bg-gradient-to-br from-purple-500 to-indigo-500 rounded-xl p-4 text-white mb-4 slide-up">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-sm font-medium">Ваш стиль подарков</span>
+                        <span class="text-sm font-medium flex items-center"><i class="fas fa-brain mr-2"></i>Ваш стиль подарков</span>
                         <i class="fas fa-robot"></i>
                     </div>
-                    <p class="text-sm mb-3">На основе анализа ваших желаний, вы предпочитаете практичные и технологичные подарки с элементом эксклюзивности (76% совпадений).</p>
-                    <div class="w-full bg-white bg-opacity-20 rounded-full h-2 mb-2">
-                        <div class="bg-white h-2 rounded-full" style="width: 76%"></div>
+                    <p class="text-xs mb-2">На основе анализа ваших желаний, вы предпочитаете практичные и технологичные подарки с элементом эксклюзивности (76% совпадений).</p>
+                    <div class="w-full bg-white bg-opacity-30 rounded-full h-1.5">
+                        <div class="bg-white h-1.5 rounded-full" style="width: 92%"></div>
                     </div>
-                    <p class="text-xs">Точность анализа: 92%</p>
+                    <p class="text-right text-xs mt-1">Точность анализа: 92%</p>
                 </div>
-                
-                <div class="space-y-3 mb-4">
-                    <div class="bg-white rounded-xl p-3 shadow-sm">
-                        <h3 class="font-medium mb-2 flex items-center">
-                            <i class="fas fa-heart text-pink-500 mr-2"></i>
-                            Язык любви
-                        </h3>
-                        <p class="text-sm text-gray-600 mb-2">Вы больше всего цените подарки-впечатления (59%) и полезные вещи (33%).</p>
-                        <button class="text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded-full font-medium">Пройти тест</button>
+
+                <div class="p-4 space-y-4">
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-heart text-red-500 mr-2"></i>
+                            <h3 class="font-semibold text-base">Язык любви</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Определите свой основной "язык любви", чтобы получать более точные рекомендации от AI.</p>
+                        <button onclick="startLoveLanguageTest()" class="w-full bg-gray-50 hover:bg-gray-100 text-blue-500 py-2 rounded-lg font-medium text-sm transition-colors">Пройти тест</button>
                     </div>
-                    
-                    <div class="bg-white rounded-xl p-3 shadow-sm">
-                        <h3 class="font-medium mb-2 flex items-center">
+
+                    <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-center mb-2">
                             <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
-                            Радар мечт
-                        </h3>
-                        <p class="text-sm text-gray-600 mb-2">Похоже, вы можете заинтересоваться:</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Гаджеты</span>
-                            <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Книги</span>
-                            <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Спорт</span>
+                            <h3 class="font-semibold text-base">Радар мечты</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">AI проанализирует ваши интересы и подберет персональные идеи для подарков. Нажмите, чтобы начать.</p>
+                        <button id="generateIdeasBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2.5 rounded-lg font-medium text-sm transition-colors">Сгенерировать идеи</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen: Generated Ideas -->
+            <div id="generatedIdeasScreen" class="screen hidden">
+                <header class="p-4 border-b bg-white sticky top-0 z-10">
+                    <div class="flex items-center">
+                        <button onclick="showScreen('aiAdvisorScreen')" class="mr-4"><i class="fas fa-arrow-left"></i></button>
+                        <h2 class="text-lg font-semibold">Сгенерированные идеи</h2>
+                    </div>
+                </header>
+                <div id="generatedIdeasListContainer" class="p-4 space-y-3">
+                    <!-- Сюда будут добавляться сгенерированные идеи -->
+                </div>
+            </div>
+
+            <!-- Modal: Interest Selector -->
+            <div id="interestSelectorModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+                <div class="bg-white rounded-xl shadow-xl w-full max-w-sm">
+                    <div class="p-4 border-b">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold text-lg">Выберите интересы</h3>
+                            <button onclick="hideModal('interestSelectorModal')" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">&times;</button>
                         </div>
                     </div>
+                    <div class="p-4">
+                        <p class="text-sm text-gray-600 mb-4">Выберите до 3-х категорий, чтобы мы подобрали наиболее релевантные идеи.</p>
+                        <div id="interestModalTags" class="flex flex-wrap gap-2 mb-6">
+                            <!-- Tags go here -->
+                        </div>
+                        <button id="showGeneratedIdeasBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2.5 rounded-lg font-medium text-sm transition-colors">Показать идеи</button>
+                    </div>
                 </div>
-                
-                <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">
-                    <i class="fas fa-magic mr-2"></i> Сгенерировать идеи
-                </button>
             </div>
 
             <!-- Profile Screen -->
@@ -375,13 +400,15 @@
                 <h2 class="text-lg font-semibold mb-4">Профиль</h2>
                 
                 <div class="flex items-center space-x-4 mb-6">
-                    <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-                        <i class="fas fa-user text-blue-500 text-2xl"></i>
+                    <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden" id="profilePhotoContainer">
+                        <img id="profilePhoto" src="" alt="Фото" class="w-16 h-16 object-cover hidden" />
+                        <i class="fas fa-user text-blue-500 text-2xl" id="profilePhotoIcon"></i>
                     </div>
                     <div>
-                        <p class="font-medium">Иван Петров</p>
+                        <p class="font-medium" id="profileName">Иван Петров</p>
                         <p class="text-sm text-gray-500">Базовый аккаунт</p>
                     </div>
+                    <button onclick="showEditProfileModal()" class="ml-auto bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-sm font-medium">Редактировать</button>
                 </div>
                 
                 <div class="bg-white rounded-xl p-4 shadow-sm mb-4">
@@ -397,20 +424,20 @@
                 </div>
                 
                 <div class="space-y-2 mb-6">
-                    <button class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50">
+                    <div class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50 cursor-pointer" role="button" tabindex="0" onclick="showLoveLanguageModal()">
                         <span>Язык любви</span>
-                        <span class="text-gray-500 text-sm flex items-center">
+                        <span class="text-gray-500 text-sm flex items-center" id="loveLanguageLabel">
                             Вещи + Впечатления
                             <i class="fas fa-chevron-right ml-2 text-gray-400 text-xs"></i>
                         </span>
-                    </button>
+                    </div>
                     
-                    <button class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50">
+                    <button class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50" onclick="showGiftHistoryModal()">
                         <span>История подарков</span>
                         <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
                     </button>
                     
-                    <button class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50">
+                    <button class="w-full flex items-center justify-between p-3 bg-white rounded-lg hover:bg-gray-50" onclick="showSettingsModal()">
                         <span>Настройки</span>
                         <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
                     </button>
@@ -451,195 +478,287 @@
 
     <!-- Modals -->
     
-    <!-- Add Wish Modal -->
-    <div id="addWishModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto slide-up">
-            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
-                <h3 class="text-lg font-medium">Добавить желание</h3>
-                <button onclick="hideModal('addWishModal')" class="text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="p-4">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Название</label>
-                        <input type="text" placeholder="Например, Книга 'Атомные привычки'" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Описание (необязательно)</label>
-                        <textarea rows="2" placeholder="Почему вы хотите этот подарок?" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"></textarea>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Фото</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                            <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i>
-                            <p class="text-sm text-gray-500 mb-1">Перетащите фото сюда или</p>
-                            <button class="text-sm text-blue-500 font-medium">Выбрать из галереи</button>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Примерная цена</label>
-                            <input type="text" placeholder="₽" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Категория</label>
-                            <select class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
-                                <option>Вещь</option>
-                                <option>Впечатление</option>
-                                <option>Время</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center">
-                        <input type="checkbox" id="publicWish" class="rounded text-blue-500 focus:ring-blue-200">
-                        <label for="publicWish" class="ml-2 text-sm text-gray-700">Видно друзьям</label>
-                    </div>
-                    
-                    <div class="pt-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Ссылка на товар (необязательно)</label>
-                        <div class="flex">
-                            <select class="border border-gray-300 rounded-l-lg px-2 focus:outline-none">
-                                <option>WB</option>
-                                <option>Ozon</option>
-                                <option>Другой</option>
-                            </select>
-                            <input type="text" placeholder="https://..." class="flex-1 border border-gray-300 border-l-0 rounded-r-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 border-t border-gray-200 sticky bottom-0 bg-white">
-                <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">
-                    Сохранить желание
-                </button>
-            </div>
-        </div>
-    </div>
-    
     <!-- Notification Modal -->
-    <div id="notifModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-xl w-full max-w-md max-h-[80vh] overflow-y-auto slide-up">
-            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
-                <h3 class="text-lg font-medium">Уведомления</h3>
-                <button onclick="hideModal('notifModal')" class="text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="divide-y divide-gray-200">
-                <div class="p-4">
-                    <div class="flex items-start">
-                        <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 flex-shrink-0">
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Друг скинулся на подарок!</p>
-                            <p class="text-sm text-gray-600">Алексей перевел 1 500 ₽ на ваш Xbox Series X</p>
-                            <p class="text-xs text-gray-400 mt-1">2 часа назад</p>
-                        </div>
-                    </div>
+    <div id="notifModal" class="hidden fixed inset-0 z-20" onclick="if(event.target === this) hideModal('notifModal')">
+        <div class="absolute inset-x-0 top-16 px-4">
+            <div class="bg-white rounded-xl shadow-lg border w-full slide-up">
+                <div class="flex justify-between items-center p-4 border-b">
+                    <h3 class="font-semibold">Уведомления</h3>
+                    <button id="clearNotifsBtn" class="text-xs text-blue-500 hover:underline">Очистить</button>
                 </div>
-                
-                <div class="p-4">
-                    <div class="flex items-start">
-                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 flex-shrink-0">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium">Новый AI-совет</p>
-                            <p class="text-sm text-gray-600">Мы нашли для вас 3 идеи подарков на День рождения</p>
-                            <p class="text-xs text-gray-400 mt-1">5 часов назад</p>
-                        </div>
-                    </div>
+                <div id="notifListContainer" class="p-2 max-h-80 overflow-y-auto">
+                    <!-- Notifications will be rendered here -->
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Модальное окно редактирования профиля -->
+    <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl w-full max-w-sm max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 class="text-lg font-medium">Редактировать профиль</h3>
+                <button onclick="hideModal('editProfileModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="p-4 space-y-4" id="editProfileForm">
+                <div class="flex flex-col items-center">
+                    <label for="editProfilePhoto" class="cursor-pointer">
+                        <img id="editProfilePhotoPreview" src="" alt="Фото" class="w-20 h-20 rounded-full object-cover mb-2 hidden" />
+                        <div id="editProfilePhotoIcon" class="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-user text-blue-500 text-3xl"></i>
+                        </div>
+                    </label>
+                    <input type="file" id="editProfilePhoto" accept="image/*" class="hidden" />
+                    <span class="text-xs text-gray-500">Нажмите, чтобы выбрать фото</span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                    <input type="text" id="editProfileFirstName" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" required />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
+                    <input type="text" id="editProfileLastName" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" required />
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно выбора языка любви -->
+    <div id="loveLanguageModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl w-full max-w-sm max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 class="text-lg font-medium">Язык любви</h3>
+                <button onclick="hideModal('loveLanguageModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="p-4 space-y-4" id="loveLanguageForm">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Выберите, что для вас важнее:</label>
+                    <div class="space-y-2">
+                        <div class="text-xs text-gray-500 mb-1">Можно выбрать до 3 вариантов</div>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Вещи" class="mr-2" /> Вещи
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Впечатления" class="mr-2" /> Впечатления
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Время" class="mr-2" /> Время вместе
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Забота" class="mr-2" /> Забота и поддержка
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Слова" class="mr-2" /> Слова и признание
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Внимание" class="mr-2" /> Внимание и участие
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" name="loveLanguage" value="Другое" class="mr-2" id="loveLangOtherCheck" /> Другое
+                        </label>
+                        <input type="text" id="loveLangOtherInput" class="w-full border border-gray-300 rounded-lg px-3 py-2 mt-2 hidden" placeholder="Введите свой вариант..." />
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно истории подарков -->
+    <div id="giftHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 class="text-lg font-medium">История подарков</h3>
+                <button onclick="hideModal('giftHistoryModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex gap-2">
+                        <select id="giftEventFilter" class="border border-gray-300 rounded-lg px-2 py-1 text-sm">
+                            <option value="">Все события</option>
+                            <option value="День Рождения">День Рождения</option>
+                            <option value="Новый Год">Новый Год</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                        <select id="giftStatusFilter" class="border border-gray-300 rounded-lg px-2 py-1 text-sm">
+                            <option value="">Все статусы</option>
+                            <option value="Подарен">Подарен</option>
+                            <option value="Получен">Получен</option>
+                            <option value="Ожидает">Ожидает</option>
+                        </select>
+                    </div>
+                    <button onclick="showAddGiftModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-medium">Добавить подарок</button>
+                </div>
+                <div id="giftHistoryList" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления подарка -->
+    <div id="addGiftModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl w-full max-w-sm max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 class="text-lg font-medium">Добавить подарок</h3>
+                <button onclick="hideModal('addGiftModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="p-4 space-y-4" id="addGiftForm">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Название подарка</label>
+                    <input type="text" id="giftTitle" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" required />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Описание</label>
+                    <textarea id="giftDesc" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Дата</label>
+                        <input type="date" id="giftDate" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Событие</label>
+                        <select id="giftEvent" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
+                            <option value="День Рождения">День Рождения</option>
+                            <option value="Новый Год">Новый Год</option>
+                            <option value="Другое">Другое</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Статус</label>
+                    <select id="giftStatus" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
+                        <option value="Подарен">Подарен</option>
+                        <option value="Получен">Получен</option>
+                        <option value="Ожидает">Ожидает</option>
+                    </select>
+                </div>
+                <div class="pt-2 flex items-center justify-between gap-2">
+                    <label class="flex items-center text-xs">
+                        <input type="checkbox" id="giftPrivate" class="mr-2" /> Видно только мне
+                    </label>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium flex-1">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно настроек -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl w-full max-w-sm max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 class="text-lg font-medium">Настройки</h3>
+                <button onclick="hideModal('settingsModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4 space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-medium">Тема оформления</span>
+                    <button id="themeToggle" class="bg-gray-100 rounded px-3 py-1 text-sm font-medium">Светлая</button>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-medium">Уведомления</span>
+                    <span class="text-xs text-gray-400">(скоро)</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="font-medium">Экспорт/Импорт</span>
+                    <div class="flex gap-2">
+                        <button id="exportDataBtn" class="bg-blue-100 text-blue-600 rounded px-2 py-1 text-xs font-medium">Экспорт</button>
+                        <label class="bg-blue-100 text-blue-600 rounded px-2 py-1 text-xs font-medium cursor-pointer">
+                            Импорт
+                            <input type="file" id="importDataInput" accept="application/json" class="hidden" />
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <button id="resetDataBtn" class="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-lg font-medium text-sm transition-colors">Сбросить профиль</button>
+                </div>
+                <div class="p-4 text-center text-xs text-gray-400 border-t">
+                    <p class="mb-1">FishList v0.2</p>
+                    <p>Идея: Юлия Логунова</p>
+                    <p class="mb-1">Разработка: Константин Прокофьев</p>
+                    <a href="mailto:support@fishlist.ru" class="underline">Обратная связь</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Wish Modal -->
+    <div id="addWishModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30">
+        <div class="bg-white rounded-xl shadow-lg w-11/12 max-w-sm p-6 slide-up">
+            <div class="p-4 border-b border-gray-200 sticky top-0 bg-white flex justify-between items-center">
+                <h3 id="addWishModalTitle" class="text-lg font-medium">Добавить желание</h3>
+                <button onclick="hideModal('addWishModal')" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addWishForm" class="p-4 space-y-4">
+                <div>
+                    <label for="addWishTitle" class="block text-sm font-medium text-gray-700 mb-1">Название</label>
+                    <input id="addWishTitle" type="text" placeholder="Например, Книга 'Атомные привычки'" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300">
+                </div>
+                
+                <div>
+                    <label for="addWishDesc" class="block text-sm font-medium text-gray-700 mb-1">Описание (необязательно)</label>
+                    <textarea id="addWishDesc" rows="2" placeholder="Почему вы хотите этот подарок?" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="addWishPrice" class="block text-sm font-medium text-gray-700 mb-1">Примерная стоимость, ₽</label>
+                    <input type="number" id="addWishPrice" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                </div>
+                
+                <div class="mb-4">
+                    <label for="addWishCategory" class="block text-sm font-medium text-gray-700 mb-1">Категория</label>
+                    <select id="addWishCategory" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                        <option>Вещь</option>
+                        <option>Впечатление</option>
+                        <option>Время</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                    <label for="publicWish" class="flex items-center cursor-pointer">
+                        <input type="checkbox" id="publicWish" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" checked>
+                        <span class="ml-2 text-sm text-gray-700">Видно друзьям</span>
+                    </label>
+                </div>
+
+                <div class="p-4 border-t border-gray-200 sticky bottom-0 bg-white">
+                    <button id="addWishSubmitBtn" type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium">
+                        Сохранить желание
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="auth.js"></script>
+    <script src="main.js"></script>
     <script>
-        // Initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            // You can add initialization code here if needed
-        });
-        
-        // Show/hide main app
-        function showMainScreen() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('appContainer').classList.remove('hidden');
-            showScreen('homeScreen');
-        }
-        
-        // Screen navigation
-        function showScreen(screenId) {
-            // Hide all screens
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.add('hidden');
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
             });
-            
-            // Show the selected screen
-            document.getElementById(screenId).classList.remove('hidden');
-            
-            // Update active tab
-            updateActiveTab(screenId);
-        }
-        
-        function updateActiveTab(screenId) {
-            const tabs = document.querySelectorAll('nav button');
-            tabs.forEach(tab => {
-                tab.classList.remove('text-blue-500', 'tab-active');
-                tab.classList.add('text-gray-500', 'hover:text-blue-500');
-            });
-            
-            // Find the corresponding tab and make it active
-            let targetTab;
-            switch(screenId) {
-                case 'homeScreen':
-                    targetTab = tabs[0];
-                    break;
-                case 'wishlistScreen':
-                    targetTab = tabs[1];
-                    break;
-                case 'friendsScreen':
-                    targetTab = tabs[2];
-                    break;
-                case 'aiAdvisorScreen':
-                    targetTab = tabs[3];
-                    break;
-                case 'profileScreen':
-                    targetTab = tabs[4];
-                    break;
-            }
-            
-            if (targetTab) {
-                targetTab.classList.remove('text-gray-500', 'hover:text-blue-500');
-                targetTab.classList.add('text-blue-500', 'tab-active');
-            }
-        }
-        
-        // Friend wishlist navigation
-        function showFriendWishlist() {
-            document.getElementById('friendWishlistScreen').classList.remove('hidden');
-            document.getElementById('friendsScreen').classList.add('hidden');
-        }
-        
-        // Modal functions
-        function showAddWishModal() {
-            document.getElementById('addWishModal').classList.remove('hidden');
-        }
-        
-        function toggleNotifModal() {
-            document.getElementById('notifModal').classList.toggle('hidden');
-        }
-        
-        function hideModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
         }
     </script>
-<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=Konstantin1997/vishlist0-0-2" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
+</body>
 </html>
